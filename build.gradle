@@ -4,7 +4,7 @@ plugins {
 }
 
 group pluginGroup
-version pluginSinceBuild
+version ideaVersion
 
 sourceSets {
     main {
