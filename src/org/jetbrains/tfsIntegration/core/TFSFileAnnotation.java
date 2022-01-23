@@ -16,9 +16,11 @@
 
 package org.jetbrains.tfsIntegration.core;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.vcs.AbstractVcsHelper;
 import com.intellij.openapi.vcs.VcsKey;
+import com.intellij.openapi.vcs.annotate.AnnotationTooltipBuilder;
 import com.intellij.openapi.vcs.annotate.FileAnnotation;
 import com.intellij.openapi.vcs.annotate.LineAnnotationAspect;
 import com.intellij.openapi.vcs.annotate.LineAnnotationAspectAdapter;
@@ -26,15 +28,12 @@ import com.intellij.openapi.vcs.history.VcsFileRevision;
 import com.intellij.openapi.vcs.history.VcsRevisionNumber;
 import com.intellij.openapi.vcs.versionBrowser.CommittedChangeList;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.ui.GuiUtils;
 import com.intellij.util.containers.ContainerUtil;
-import git4idea.annotate.AnnotationTooltipBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.tfsIntegration.core.tfs.TfsRevisionNumber;
 import org.jetbrains.tfsIntegration.core.tfs.TfsUtil;
 import org.jetbrains.tfsIntegration.core.tfs.WorkspaceInfo;
 
-import java.lang.reflect.InvocationTargetException;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -75,20 +74,8 @@ public class TFSFileAnnotation extends FileAnnotation {
     }
   };
 
-  private final TFSVcs.RevisionChangedListener myListener = new TFSVcs.RevisionChangedListener() {
-    @Override
-    public void revisionChanged() {
-      try {
-        GuiUtils.runOrInvokeAndWait(() -> TFSFileAnnotation.this.close());
-      }
-      catch (InvocationTargetException e) {
-        // ignore
-      }
-      catch (InterruptedException e) {
-        // ignore
-      }
-    }
-  };
+  private final TFSVcs.RevisionChangedListener myListener = () ->
+          ApplicationManager.getApplication().invokeAndWait(TFSFileAnnotation.this::close);
 
   public TFSFileAnnotation(final TFSVcs vcs,
                            final WorkspaceInfo workspace,
