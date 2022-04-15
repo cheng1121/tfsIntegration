@@ -28,7 +28,7 @@ final class TFSOptionsTopHitProvider implements OptionsSearchTopHitProvider.Proj
   @Override
   public Collection<OptionDescription> getOptions(@NotNull Project project) {
     for (VcsDescriptor descriptor : ProjectLevelVcsManager.getInstance(project).getAllVcss()) {
-      if ("TFS".equals(descriptor.getDisplayName())) {
+      if ("TFS".equals(descriptor.getName())) {
         return Collections.unmodifiableCollection(Arrays.<BooleanOptionDescription>asList(
           new Option("TFS: Use HTTP Proxy settings", null, "useIdeaHttpProxy", "setUseIdeaHttpProxy"),
           new Option("TFS: Evaluate Team Explorer policies", "teamExplorer", null, "setSupportTfsCheckinPolicies"),
@@ -43,7 +43,7 @@ final class TFSOptionsTopHitProvider implements OptionsSearchTopHitProvider.Proj
     private final String myField;
 
     Option(String option, String field, String getterName, String setterName) {
-      super(option, "vcs.TFS", getterName, setterName);
+      super(option, "vcs.TFS", getterName, setterName, null);
       myField = field;
     }
 
