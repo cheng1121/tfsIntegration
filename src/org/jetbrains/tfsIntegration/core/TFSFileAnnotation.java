@@ -170,7 +170,7 @@ public class TFSFileAnnotation extends FileAnnotation {
 
   private abstract class TFSAnnotationAspect extends LineAnnotationAspectAdapter {
     TFSAnnotationAspect(String id, boolean showByDefault) {
-      super(id, showByDefault);
+      super(id,null ,showByDefault);
     }
 
     @Override

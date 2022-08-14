@@ -110,7 +110,7 @@ public class MergeBranchForm {
     mySourceField.setText(initialSourcePath);
     mySourceIsDirectory = initialSourcePathIsDirectory;
 
-    mySourceField.getButton().addActionListener(new ActionListener() {
+    mySourceField.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(final ActionEvent e) {
         ServerBrowserDialog d =

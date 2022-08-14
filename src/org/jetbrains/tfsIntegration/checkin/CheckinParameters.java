@@ -109,7 +109,7 @@ public class CheckinParameters {
     myPanel = panel;
     final Collection<FilePath> filePaths = new ArrayList<>(panel.getFiles().size());
     for (File file : panel.getFiles()) {
-      FilePath filePath = VcsContextFactory.SERVICE.getInstance().createFilePathOn(file);
+      FilePath filePath = VcsContextFactory.getInstance().createFilePathOn(file);
       if (!TFSVcs.isUnderTFS(filePath, myPanel.getProject())) {
         continue;
       }

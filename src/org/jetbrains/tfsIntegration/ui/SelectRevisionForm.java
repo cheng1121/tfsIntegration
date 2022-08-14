@@ -94,23 +94,17 @@ public class SelectRevisionForm {
     labelRadioButton.addActionListener(radioButtonListener);
     workspaceRadioButton.addActionListener(radioButtonListener);
 
-    changesetVersionText.getButton().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        SelectChangesetDialog d = new SelectChangesetDialog(myProject, myWorkspace, myServerPath, myIsDirectory);
-        if (d.showAndGet()) {
-          changesetVersionText.setText(String.valueOf(d.getChangeset()));
-        }
+    changesetVersionText.addActionListener(e -> {
+      SelectChangesetDialog d = new SelectChangesetDialog(myProject, myWorkspace, myServerPath, myIsDirectory);
+      if (d.showAndGet()) {
+        changesetVersionText.setText(String.valueOf(d.getChangeset()));
       }
     });
 
-    labelVersionText.getButton().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        SelectLabelDialog d = new SelectLabelDialog(myProject, myWorkspace);
-        if (d.showAndGet()) {
-          labelVersionText.setText(d.getLabelString());
-        }
+    labelVersionText.addActionListener(e -> {
+      SelectLabelDialog d = new SelectLabelDialog(myProject, myWorkspace);
+      if (d.showAndGet()) {
+        labelVersionText.setText(d.getLabelString());
       }
     });
 

@@ -60,7 +60,7 @@ public class TfsFileUtil {
 
   @NotNull
   public static FilePath getFilePath(@NotNull VirtualFile f) {
-    return VcsContextFactory.SERVICE.getInstance().createFilePathOn(f);
+    return VcsContextFactory.getInstance().createFilePathOn(f);
   }
 
   public static void setReadOnly(final VirtualFile file, final boolean status) throws IOException {
@@ -69,24 +69,16 @@ public class TfsFileUtil {
 
   public static void setReadOnly(final Collection<? extends VirtualFile> files, final boolean status) throws IOException {
     final Ref<IOException> exception = new Ref<>();
-    try {
-      GuiUtils.runOrInvokeAndWait(() -> ApplicationManager.getApplication().runWriteAction(() -> {
-        try {
-          for (VirtualFile file : files) {
-            ReadOnlyAttributeUtil.setReadOnlyAttribute(file, status);
-          }
+    ApplicationManager.getApplication().invokeAndWait(() -> ApplicationManager.getApplication().runWriteAction(() -> {
+      try {
+        for (VirtualFile file : files) {
+          ReadOnlyAttributeUtil.setReadOnlyAttribute(file, status);
         }
-        catch (IOException e) {
-          exception.set(e);
-        }
-      }));
-    }
-    catch (InvocationTargetException e) {
-      // ignore
-    }
-    catch (InterruptedException e) {
-      // ignore
-    }
+      }
+      catch (IOException e) {
+        exception.set(e);
+      }
+    }));
     if (!exception.isNull()) {
       throw exception.get();
     }
@@ -94,8 +86,8 @@ public class TfsFileUtil {
 
   private static void setReadOnly(final String path, final boolean status) throws IOException {
     final Ref<IOException> exception = new Ref<>();
-    try {
-      GuiUtils.runOrInvokeAndWait(() -> {
+
+      ApplicationManager.getApplication().invokeAndWait(() -> {
         try {
           ReadOnlyAttributeUtil.setReadOnlyAttribute(path, status);
         }
@@ -103,13 +95,6 @@ public class TfsFileUtil {
           exception.set(e);
         }
       });
-    }
-    catch (InvocationTargetException e) {
-      // ignore
-    }
-    catch (InterruptedException e) {
-      // ignore
-    }
     if (!exception.isNull()) {
       throw exception.get();
     }
@@ -181,17 +166,9 @@ public class TfsFileUtil {
   }
 
   public static void refreshAndFindFile(final FilePath path) {
-    try {
-      GuiUtils.runOrInvokeAndWait(() -> ApplicationManager.getApplication().runWriteAction(() -> {
+      ApplicationManager.getApplication().invokeAndWait(() -> ApplicationManager.getApplication().runWriteAction(() -> {
         VirtualFileManager.getInstance().refreshAndFindFileByUrl(path.getPath());
       }));
-    }
-    catch (InvocationTargetException e) {
-      // ignore
-    }
-    catch (InterruptedException e) {
-      // ignore
-    }
   }
 
   public static void setFileContent(final @NotNull File destination, final @NotNull ContentWriter contentWriter)

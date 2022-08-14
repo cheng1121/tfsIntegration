@@ -71,7 +71,7 @@ public class TfsTreeForm implements Disposable, DataProvider {
         myEventDispatcher.getMulticaster().selectionChanged();
       }
     });
-    PopupHandler.installPopupHandler(myTree, POPUP_ACTION_GROUP, ActionPlaces.REMOTE_HOST_DIALOG_POPUP);
+    PopupHandler.installPopupMenu(myTree, POPUP_ACTION_GROUP, ActionPlaces.REMOTE_HOST_DIALOG_POPUP);
     setMessage(null, false);
   }
 

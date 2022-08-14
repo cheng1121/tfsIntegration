@@ -56,7 +56,7 @@ public class XMLMemento implements Memento {
     final String s = myElement.getAttributeValue(key);
     if (s != null) {
       try {
-        return new Double(s);
+        return  Double.parseDouble(s);
       }
       catch (NumberFormatException e) {
         // fallback to null
@@ -70,7 +70,7 @@ public class XMLMemento implements Memento {
     final String s = myElement.getAttributeValue(key);
     if (s != null) {
       try {
-        return new Float(s);
+        return  Float.parseFloat(s);
       }
       catch (NumberFormatException e) {
         // fallback to null
@@ -84,7 +84,7 @@ public class XMLMemento implements Memento {
     final String s = myElement.getAttributeValue(key);
     if (s != null) {
       try {
-        return new Integer(s);
+        return  Integer.parseInt(s);
       }
       catch (NumberFormatException e) {
         // fallback to null
@@ -98,7 +98,7 @@ public class XMLMemento implements Memento {
     final String s = myElement.getAttributeValue(key);
     if (s != null) {
       try {
-        return new Long(s);
+        return  Long.parseLong(s);
       }
       catch (NumberFormatException e) {
         // fallback to null

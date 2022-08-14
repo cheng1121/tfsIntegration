@@ -45,13 +45,10 @@ public class FieldWithButtonCellEditor<T> extends DefaultCellEditor {
     field.setOpaque(false);
     field.getTextField().setBorder(BorderFactory.createEmptyBorder());
 
-    field.getButton().addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(final ActionEvent e) {
-        String result = helper.processButtonClick(field.getText());
-        if (result != null) {
-          field.setText(result);
-        }
+    field.addActionListener(e -> {
+      String result = helper.processButtonClick(field.getText());
+      if (result != null) {
+        field.setText(result);
       }
     });
 

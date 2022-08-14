@@ -36,8 +36,8 @@ import java.util.*;
 
 public class TFSFileListener extends VcsVFSListener {
 
-  public TFSFileListener(Project project, TFSVcs vcs) {
-    super(project, vcs);
+  public TFSFileListener( TFSVcs vcs) {
+    super(vcs);
   }
 
   @NotNull
@@ -55,7 +55,7 @@ public class TFSFileListener extends VcsVFSListener {
   @NotNull
   @Override
   protected String getSingleFileAddPromptTemplate() {
-    return TFSBundle.message("add.item.prompt");
+    return TFSBundle.message("add.item.prompt","");
   }
 
   @Override
